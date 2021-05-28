@@ -1,0 +1,29 @@
+{
+  "name": "controlflow-protocols",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmostafavi/controlflow-protocols.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmostafavi/controlflow-protocols/issues"
+  },
+  "homepage": "https://github.com/mmostafavi/controlflow-protocols#readme",
+  "devDependencies": {
+    "@types/node": "^15.6.1",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
