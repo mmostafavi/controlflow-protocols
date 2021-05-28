@@ -21,7 +21,7 @@ const sender_info = {
 
 // loading the data to network layer of the sender
 let dataArr: Array<string> = process.env.data!.split("")
-  while (dataArr.length > 8) {
+  while (dataArr.length > 0) {
     let frameToSend = {data: "",info: {sender_id:"", network: "", ip: ""}};
     if (dataArr.length < 8) {
       frameToSend.data = dataArr.splice(0).join("")
@@ -64,6 +64,9 @@ export default class Protocol2 {
     const frameToProcess = ReceiverPhysicalLayer.from_physical_layer();
     ReceiverNetworkLayer.to_network_layer(frameToProcess)
   
+    if (frameToProcess?.data === undefined){
+      this.process.exit()
+    }
     setTimeout(() => {
       console.log(`ACK for frame ${frameToProcess?.data}. ready to receive the next frame`);
       event.emit("send_frame")
