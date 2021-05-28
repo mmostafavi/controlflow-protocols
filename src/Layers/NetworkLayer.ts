@@ -1,19 +1,20 @@
 // network layer
-import {NetworkLayerI} from '../Interfaces'
+import {frame, frame_info, NetworkLayerI} from '../Interfaces'
 
-class NetworkLayer implements NetworkLayerI {
-  sending_queue: Array<number>;
-  received_queue: Array<number>
+export default class NetworkLayer implements NetworkLayerI {
+  sending_queue: Array<frame|undefined>;
+  received_queue: Array<frame|undefined>
   constructor() {
     this.sending_queue = [];
     this.received_queue = []
   }
 
-  from_network_layer(): number | undefined {
-    return this.received_queue.pop()
+  from_network_layer(): frame | undefined {
+    return this.sending_queue.pop()
   }
 
-  to_network_layer(f: number): void {
+  to_network_layer(f: frame | undefined): void {
+    // passing some tests on f.info
     this.sending_queue.unshift(f);
   }
 
