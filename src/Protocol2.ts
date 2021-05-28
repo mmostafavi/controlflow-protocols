@@ -11,15 +11,7 @@ const ReceiverNetworkLayer = new NetworkLayer()
 const ReceiverPhysicalLayer = new PhysicalLayer()
 const event = new EventEmitter()
 
-// defining receive_frame event
-event.on("receive_frame", () => {
-  receiver()
-})
 
-// defining send_frame event
-event.on("send_frame", () => {
-  sender()
-})
 
 const sender_info = {
   sender_id: "sender_1",
@@ -43,27 +35,43 @@ let dataArr: Array<string> = process.env.data!.split("")
   }
 
 
-const sender = () => {
-  // adding meta info to the frame
-  const frameToSend: frame |undefined = SenderNetworkLayer.from_network_layer()
+export default class Protocol2 {
+  private process
+  constructor(process: any){
+    this.process = process
+    // defining receive_frame event
+    event.on("receive_frame", () => {
+      this.receiver()
+    })
+
+    // defining send_frame event
+    event.on("send_frame", () => {
+      this.sender()
+    })
+  }
+
+  private sender = () => {
+    // adding meta info to the frame
+    const frameToSend: frame |undefined = SenderNetworkLayer.from_network_layer()
+    
+    // sending the frame to second node in network
+    SenderPhysicalLayer.to_physical_layer(frameToSend)
+    ReceiverPhysicalLayer.to_physical_layer(SenderPhysicalLayer.send())
+    event.emit("receive_frame")
+  }
   
-  // sending the frame to second node in network
-  SenderPhysicalLayer.to_physical_layer(frameToSend)
-  ReceiverPhysicalLayer.to_physical_layer(SenderPhysicalLayer.send())
-  event.emit("receive_frame")
-}
-
-const receiver = () => {
-  const frameToProcess = ReceiverPhysicalLayer.from_physical_layer();
-  ReceiverNetworkLayer.to_network_layer(frameToProcess)
-
-  setTimeout(() => {
-    console.log(`ACK for frame ${frameToProcess?.data}. ready to receive the next frame`);
-    event.emit("send_frame")
-  }, Number(process.env.ping))
+  private receiver = () => {
+    const frameToProcess = ReceiverPhysicalLayer.from_physical_layer();
+    ReceiverNetworkLayer.to_network_layer(frameToProcess)
   
+    setTimeout(() => {
+      console.log(`ACK for frame ${frameToProcess?.data}. ready to receive the next frame`);
+      event.emit("send_frame")
+    }, Number(this.process.env.ping))
+    
+  }
+
+  start() {
+    this.sender()
+  }
 }
-
-
-// initial trigger for sender node
-sender()
