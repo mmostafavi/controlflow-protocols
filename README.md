@@ -2,15 +2,18 @@
 
 you need to have ```node``` & ```typescript``` installed.
 
+for installing node refer to https://nodejs.org and for typescript you
+can find instructions for your machine in https://www.typescriptlang.org/
+
+
+
 open a command line in project's main directory
 
 run ```npm install```
 
-then ```npx ts-node ./src/index.ts```
+then ```npx tsc```
 
+command for runnig the simulation:
+```node ./build/index.js```
 
-
-command for runnig the protocol
-```npx ts-node ./src/index.ts```
-
-you can run the app with different data stream in nodemon.json app
+you can run the app with different bit stream by changing the ```bitStream``` field in ```src/input.json```
