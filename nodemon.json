@@ -2,9 +2,5 @@
   "watch": ["src"],
   "ignore": [],
   "ext": ".ts,.js",
-  "exec": "ts-node ./src/index.ts",
-  "env": {
-    "ping": 4000,
-    "data": "001001001010100101"
-  }
+  "exec": "ts-node ./src/index.ts"
 }
